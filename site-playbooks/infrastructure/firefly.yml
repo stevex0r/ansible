@@ -1,0 +1,7 @@
+---
+- hosts: openstack
+  remote_user: ansible
+  become: yes
+  roles:
+    - common
+    - firefly

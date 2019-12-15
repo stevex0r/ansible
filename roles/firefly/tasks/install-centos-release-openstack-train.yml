@@ -1,0 +1,14 @@
+---
+# file: roles/node_common/tasks/disable-firewalld.yml
+
+  - name: install openstack packages 
+    yum:
+      name: [centos-release-openstack-train]
+      state: installed 
+
+
+
+  - name: install openstack packages 
+    yum:
+      name: [openstack-packstack]
+      state: installed 

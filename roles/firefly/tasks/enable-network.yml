@@ -1,0 +1,9 @@
+---
+# file: roles/firefly/tasks/enable-network.yml
+
+
+  - name: network - enabled and start service
+    systemd:
+       enabled: yes
+       state: started
+       name: network

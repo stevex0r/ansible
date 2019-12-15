@@ -1,0 +1,27 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+192.168.1.43	firefly openstack
+192.168.1.128	wopr
+192.168.1.44	gunstar ansible
+192.168.1.45    nostromo	
+192.168.1.67    vm67	
+192.168.1.68    vm68	
+192.168.1.69    vm69	
+192.168.1.70    vm70	
+192.168.1.71    vm71	
+192.168.1.72    vm72	
+192.168.1.73    vm73	
+192.168.1.74    vm74	
+192.168.1.75    vm75	
+192.168.1.76    vm76	
+192.168.1.77    vm77
+192.168.1.78    vm78	
+192.168.1.79    vm89	
+192.168.1.80    vm80	
+192.168.1.81    vm81	
+192.168.1.82    vm82	
+192.168.1.83    vm83	
+192.168.1.84    vm84	
+192.168.1.85    vm87
+192.168.1.86    vm86
+192.168.1.87    vm87
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6

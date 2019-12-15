@@ -1,0 +1,38 @@
+---
+# tasks file for installing OpensStack on Firefly
+
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    selinux:
+       policy: targeted
+       state: permissive
+    tags:
+      - selinux
+
+  - import_tasks: disable-firewalld.yml
+    tags:
+      - disable-firewall
+
+  - import_tasks: disable-NetworkManager.yml
+    tags:
+      - disable-NetworkManager
+
+  - import_tasks: enable-network.yml
+    tags:
+      - enable-network
+
+  - import_tasks: install-centos-release-openstack-train.yml
+    tags:
+      - install-centos-release-openstack-train
+
+  - name: transfer openstack answer file 
+    copy:
+       src: answers.cfg
+       dest: /root
+    tags:
+      - openstack-install
+
+  - name: Execute Packstack
+    command: packstack  --answer-file /root/answers.cfg
+    tags:
+      - openstack-install
+

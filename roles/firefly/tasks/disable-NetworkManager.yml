@@ -1,0 +1,14 @@
+---
+# file: roles/firefly/tasks/disable-NetworkManager.yml
+
+
+  - name: be sure NetworkManager is installed 
+    yum: 
+       name: NetworkManager
+       state: installed 
+
+  - name: NetworkManager - disabled and stop service
+    systemd:
+       enabled: no
+       state: stopped
+       name: NetworkManager

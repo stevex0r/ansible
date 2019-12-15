@@ -1,0 +1,29 @@
+---
+# file: roles/node_common/tasks/disable-firewalld.yml
+
+
+  - name: be sure autofs is installed 
+    yum: 
+       name: ['autofs', 'libnfsidmap', 'nfs-utils']
+       state: installed 
+
+  - name: Insert home mounts to auto.master
+    lineinfile:
+      path: /etc/auto.master
+      line: "{{ item.line }}"
+    with_items:
+      - { line: '/home /etc/auto.home' }
+
+  - name: Create auto.home
+    lineinfile:
+      path: /etc/auto.home
+      line:  '* -fstype=nfs4,nfsvers=4.1,sec=sys wopr:/mnt/drobo2/home/&'
+      create: yes
+
+
+  - name: autofs - enable and start service
+    systemd:
+       enabled: yes
+       state: started
+       name: autofs
+

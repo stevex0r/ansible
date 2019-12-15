@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- name: Ping cloud instances
+  hosts: meta-grp_4477, flavor-m1.tiny
+  remote_user: centos
+  become: yes
+  tasks:
+    - name: Test connection to instance
+      ping:

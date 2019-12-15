@@ -1,0 +1,25 @@
+---
+# tasks file for common
+
+  - name: set /etc/hosts
+    copy:
+       src: hosts
+       dest: /etc/hosts
+       owner: root
+       group: root
+       mode: 0644
+    tags:
+      - etchosts
+
+  - import_tasks: enable-ntp.yml
+    tags:
+      - enable-ntp
+
+  - import_tasks: ldap-client.yml
+    tags:
+      - ldap-client
+
+
+  - import_tasks: autofs.yml
+    tags:
+      - autofs

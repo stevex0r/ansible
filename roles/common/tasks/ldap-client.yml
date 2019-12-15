@@ -1,0 +1,16 @@
+---
+# file: roles/common/tasks/enable-ntp.yml
+
+
+  - name: be sure ntp is installed 
+    yum: 
+       name: ['openldap', 'openldap-clients', 'nss-pam-ldapd']
+       state: installed 
+
+  - name: "LDAP Authentication | Enable LDAP PAM modules"
+    command: "authconfig --enableldap --enableldapauth --ldapserver=gunstar --ldapbasedn=dc=ninjanet,dc=com  --update"
+
+  - name: add shadowMax to nslcd.conf
+    lineinfile:
+      dest: /etc/nslcd.conf
+      line: map shadow shadowMax "${shadowMax:0}"

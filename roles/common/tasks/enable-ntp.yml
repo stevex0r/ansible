@@ -1,0 +1,17 @@
+---
+# file: roles/common/tasks/enable-ntp.yml
+
+
+  - name: be sure ntp is installed 
+    yum: 
+       name: ntp
+       state: installed 
+
+  - name: Run shell command to set timezone 
+    shell: timedatectl set-timezone America/Chicago
+
+  - name: ntp - enabled and start service
+    systemd:
+       enabled: yes
+       state: started
+       name: ntpd

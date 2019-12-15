@@ -1,0 +1,6 @@
+---
+- hosts: slurmlogin
+  become: yes
+  roles:
+    - common
+    - nostromo

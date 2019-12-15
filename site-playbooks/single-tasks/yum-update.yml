@@ -1,0 +1,6 @@
+---
+- hosts: common
+  remote_user: ansible
+  become: yes
+  roles:
+    - single-tasks/yum-update

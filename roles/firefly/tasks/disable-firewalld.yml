@@ -1,0 +1,14 @@
+---
+# file: roles/node_common/tasks/disable-firewalld.yml
+
+
+  - name: be sure firewalld is installed 
+    yum: 
+       name: firewalld
+       state: installed 
+
+  - name: firewalld - disabled and stop service
+    systemd:
+       enabled: no
+       state: stopped
+       name: firewalld

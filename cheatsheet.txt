@@ -1,0 +1,12 @@
+#Specify the hosts file and the ssh key 
+ansible-playbook  -i hosts.static test/pingfirefly.yml --key-file /opt/ansible/.ssh/id_rsa
+
+ansible-playbook  -i hosts.static site-playbooks/infrastructure/firefly.yml --key-file /opt/ansible/.ssh/id_rsa --tags=selinux
+
+ansible-playbook  -i hosts.static site-playbooks/single-tasks/yum-update.yml --key-file /opt/ansible/.ssh/id_rsa
+
+#ansible-vault create and edit file
+ansible-vault create openstack.yml
+ansible-vault edit openstack.yml
+
+ansible-playbook  -i hosts.static site-playbooks/common.yml --key-file /home/ansible/.ssh/id_rsa --tags=autofs
