@@ -9,4 +9,4 @@ ansible-playbook  -i hosts.static site-playbooks/single-tasks/yum-update.yml --k
 ansible-vault create openstack.yml
 ansible-vault edit openstack.yml
 
-ansible-playbook  -i hosts.static site-playbooks/common.yml --key-file /home/ansible/.ssh/id_rsa --tags=autofs
+ansible-playbook  -i hosts.static site-playbooks/common.yml --key-file /opt/ansible/.ssh/id_rsa --tags=autofs
