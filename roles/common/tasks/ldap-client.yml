@@ -4,7 +4,7 @@
 
   - name: be sure ntp is installed 
     yum: 
-       name: ['openldap', 'openldap-clients', 'nss-pam-ldapd']
+       name: ['openldap', 'openldap-clients', 'nss-pam-ldapd', 'authconfig']
        state: installed 
 
   - name: "LDAP Authentication | Enable LDAP PAM modules"

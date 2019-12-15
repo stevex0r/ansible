@@ -1,6 +1,9 @@
 #Specify the hosts file and the ssh key 
 ansible-playbook  -i hosts.static test/pingfirefly.yml --key-file /opt/ansible/.ssh/id_rsa
 
+#Single Host 
+ansible-playbook  -i hosts.static test/ping.yml --key-file /opt/ansible/.ssh/id_rsa --limit nostromo
+
 ansible-playbook  -i hosts.static site-playbooks/infrastructure/firefly.yml --key-file /opt/ansible/.ssh/id_rsa --tags=selinux
 
 ansible-playbook  -i hosts.static site-playbooks/single-tasks/yum-update.yml --key-file /opt/ansible/.ssh/id_rsa
@@ -10,3 +13,10 @@ ansible-vault create openstack.yml
 ansible-vault edit openstack.yml
 
 ansible-playbook  -i hosts.static site-playbooks/common.yml --key-file /opt/ansible/.ssh/id_rsa --tags=autofs
+
+#git
+git remote add origin https://github.com/stevex0r/ansible.git
+git add *
+git commit -m "changed cheatsheet.txt"
+git status 
+git push git@github.com:stevex0r/ansible.git

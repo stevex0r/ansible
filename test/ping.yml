@@ -2,8 +2,8 @@
 ---
 
 - name: Ping cloud instances
-  hosts: all
-  remote_user: centos
+  hosts: all 
+  remote_user: ansible 
   tasks:
     - name: Test connection to instance
       ping:

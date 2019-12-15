@@ -44,13 +44,15 @@
 
 [common]
 firefly
-#nostromo
+nostromo
 
 [openstack]
 firefly 
 
 [slurmlogin]
-#nostromo
+nostromo
 
 [slurmcompute]
-#xeno1
+xeno1
+xeno2
+xeno3
