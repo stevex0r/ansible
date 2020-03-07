@@ -1,11 +1,11 @@
 ---
-# file: roles/common/tasks/enable-ntp.yml
+# file: roles/common/tasks/ldap-client.yml
 
 
-  - name: be sure ntp is installed 
-    yum: 
+  - name: be sure ldap client is installed
+    yum:
        name: ['openldap', 'openldap-clients', 'nss-pam-ldapd', 'authconfig']
-       state: installed 
+       state: installed
 
   - name: "LDAP Authentication | Enable LDAP PAM modules"
     command: "authconfig --enableldap --enableldapauth --ldapserver=gunstar --ldapbasedn=dc=ninjanet,dc=com  --update"
@@ -14,3 +14,8 @@
     lineinfile:
       dest: /etc/nslcd.conf
       line: map shadow shadowMax "${shadowMax:0}"
+
+  - name: Restart service nslcd, in all cases
+    service:
+      name: nslcd
+      state: restarted

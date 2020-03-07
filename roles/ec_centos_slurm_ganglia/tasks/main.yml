@@ -1,0 +1,23 @@
+---
+# tasks file for ec_centos_slurm_ganglia
+
+  - name: Fix autofs remove nfs lines in auto.master
+    lineinfile:
+      dest: /etc/auto.master
+      line: "{{ item.line }}"
+      state: absent
+      backup: yes
+    with_items:
+      - { line: '/net/nfs3  -hosts' }
+      - { line: '/net/nfs4  program:/etc/auto.nfs4  hard,intr,nosuid,nodev' }
+    tags:
+      - fixautofs
+
+  - name: Fix ganglia 
+    copy:
+      src: set-prompt.sh
+      dest: /etc/profile.d/set-prompt.sh
+      owner: root
+      group: root
+      mode: 0644
+

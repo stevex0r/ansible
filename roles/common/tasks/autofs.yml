@@ -7,16 +7,22 @@
        name: ['autofs', 'libnfsidmap', 'nfs-utils']
        state: installed 
 
+  - name: Create /homenfs if it doesnt exist 
+    file:
+      path: /homenfs
+      state: directory
+      mode: '0755'
+
   - name: Insert home mounts to auto.master
     lineinfile:
       path: /etc/auto.master
       line: "{{ item.line }}"
     with_items:
-      - { line: '/home /etc/auto.home' }
+      - { line: '/homenfs /etc/auto.homenfs' }
 
-  - name: Create auto.home
+  - name: Create auto.homenfs
     lineinfile:
-      path: /etc/auto.home
+      path: /etc/auto.homenfs
       line:  '* -fstype=nfs4,nfsvers=4.1,sec=sys wopr:/mnt/drobo2/home/&'
       create: yes
 

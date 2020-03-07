@@ -45,9 +45,12 @@
 [common]
 firefly
 nostromo
+reaver
 
 [openstack]
 firefly 
+reaver
+
 
 [slurmlogin]
 nostromo

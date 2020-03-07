@@ -1,0 +1,7 @@
+---
+- hosts: firefly
+  remote_user: centos
+  become: yes
+  roles:
+    - ec_centos_slurm_ganglia_frontend
+    - common

@@ -1,0 +1,25 @@
+---
+# tasks file for oscentos
+
+
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    selinux:
+       policy: targeted
+       state: permissive
+    tags:
+      - selinux
+
+#  - import_tasks: movecentosuser.yml
+#    tags:
+#      - movecentosuser
+
+  - name: 
+    replace:
+      path: /etc/ssh/sshd_config
+      regexp: 'PasswordAuthentication no'
+      replace: PasswordAuthentication yes
+
+  - name: Restart service sshd, in all cases
+    service:
+      name: sshd
+      state: restarted

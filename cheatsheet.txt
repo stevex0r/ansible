@@ -20,3 +20,8 @@ git add *
 git commit -m "changed cheatsheet.txt"
 git status 
 git push git@github.com:stevex0r/ansible.git
+
+
+#elasticluster
+elasticluster start slurm -n cluster
+

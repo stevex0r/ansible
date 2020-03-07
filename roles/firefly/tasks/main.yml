@@ -31,8 +31,8 @@
     tags:
       - openstack-install
 
-  - name: Execute Packstack
-    command: packstack  --answer-file /root/answers.cfg
-    tags:
-      - openstack-install
+#  - name: Execute Packstack
+#    command: packstack  --answer-file /root/answers.cfg
+#    tags:
+#      - openstack-install
 

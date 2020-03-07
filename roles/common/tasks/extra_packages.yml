@@ -1,0 +1,8 @@
+---
+# file: roles/common/tasks/ldap-client.yml
+
+
+  - name: be sure ldap client is installed
+    yum:
+       name: ['wget','unzip']
+       state: installed

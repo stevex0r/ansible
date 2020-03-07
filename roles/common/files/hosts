@@ -1,8 +1,8 @@
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-192.168.1.43	firefly openstack
+192.168.1.146	firefly openstack
 192.168.1.128	wopr
-192.168.1.44	gunstar ansible
-192.168.1.45    nostromo	
+192.168.1.144	gunstar ansible
+192.168.1.145    nostromo	
 192.168.1.67    vm67	
 192.168.1.68    vm68	
 192.168.1.69    vm69	

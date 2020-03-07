@@ -1,0 +1,24 @@
+---
+
+- name: Create /homelocal if it doesnt exist 
+  file:
+    path: /homelocal
+    state: directory
+    mode: '0755'
+
+- name: stat /home/centos
+  stat: path=/home/centos
+  register: centoshome_stat
+
+- name: Move /home/centos to /homelocal/centos
+  command: cp -rp /home/centos /homelocal/centos
+  when: centoshome_stat.stat.exists
+
+- name: change home to homelocal in /etc/passwd
+  replace:
+    path: /etc/passwd
+    regexp: 'home/centos'
+    replace: homelocal/centos
+
+- name: reset ssh connection
+  meta: reset_connection

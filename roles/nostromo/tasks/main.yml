@@ -1,2 +1,50 @@
 ---
 # tasks file for nostromo
+
+  - name: install needed network manager libs
+    package:
+      name:
+        - NetworkManager-glib
+        - nm-connection-editor
+        - libsemanage-python
+        - policycoreutils-python
+      state: present
+    tags:
+      - network-ineternal
+
+
+  - name: Configure eth0 for internal node network
+    nmcli:
+      conn_name: eth0
+      ifname: eth0
+      type: ethernet
+      ip4: 192.168.2.2
+      state: present
+    tags:
+      - network-ineternal
+
+  - name: Dhcp server install
+    package:
+      name:
+        - dhcp
+      state: present
+    tags:
+      - dhcp-server
+
+  - name: Set /etc/dhcp/dhcpd.conf 
+    copy:
+       src: dhcp.conf
+       dest: /etc/dhcp/dhcpd.conf
+       owner: root
+       group: root
+       mode: 0644
+    tags:
+      - dhcp-server
+
+  - name: dhcp - enabled and start service
+    systemd:
+       enabled: yes
+       state: started
+       name: dhcpd
+    tags:
+      - dhcp-server

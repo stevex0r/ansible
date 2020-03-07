@@ -1,1 +1,1 @@
-./hosts --list | jq -r '. | del(._meta)'
+/etc/ansible/hosts --list | jq -r '. | del(._meta)'

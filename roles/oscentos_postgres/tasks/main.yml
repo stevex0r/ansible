@@ -1,0 +1,28 @@
+---
+# tasks file for oscentos_postges
+
+- name: be sure that postgres is installed 
+  yum:
+    name: ["postgresql-server", "postgresql-contrib"]
+    state: installed
+
+- name: Check if PostgreSQL database is initialized.
+  stat:
+    path: "/var/lib/pgsql/data/PG_VERSION"
+  register: pgdata_dir_version
+
+- name: Ensure PostgreSQL database is initialized.
+  command: "/bin/postgresql-setup initdb"
+  when: not pgdata_dir_version.stat.exists
+  become: true
+  become_user: "postgres"
+
+- name: Start service postgresql , if not started
+  service:
+    name: postgresql
+    state: started
+
+- name: Enable service postgresql, and not touch the state
+  service:
+    name: postgresql
+    enabled: yes
