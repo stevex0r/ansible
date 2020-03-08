@@ -1,0 +1,22 @@
+---
+# tasks file for ec_centos_slurm_ganglia
+
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    selinux:
+       policy: targeted
+       state: permissive
+    tags:
+      - selinux
+
+
+  - name: Fix autofs remove nfs lines in auto.master
+    lineinfile:
+      dest: /etc/auto.master
+      line: "{{ item.line }}"
+      state: absent
+      backup: yes
+    with_items:
+      - { line: '/net/nfs3  -hosts' }
+      - { line: '/net/nfs4  program:/etc/auto.nfs4  hard,intr,nosuid,nodev' }
+    tags:
+      - fixautofs

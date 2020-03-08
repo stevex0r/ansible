@@ -1,0 +1,7 @@
+---
+- hosts: firefly
+  remote_user: centos
+  become: yes
+  roles:
+    - slayer_compute
+    - common

@@ -1,0 +1,63 @@
+---
+# tasks file for ec_centos_slurm_ganglia
+
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    selinux:
+       policy: targeted
+       state: permissive
+    tags:
+      - selinux
+
+
+  - name: Fix autofs remove nfs lines in auto.master
+    lineinfile:
+      dest: /etc/auto.master
+      line: "{{ item.line }}"
+      state: absent
+      backup: yes
+    with_items:
+      - { line: '/net/nfs3  -hosts' }
+      - { line: '/net/nfs4  program:/etc/auto.nfs4  hard,intr,nosuid,nodev' }
+    tags:
+      - fixautofs
+
+  - name: Fix ganglia 
+    copy:
+      src: ganglia.conf
+      dest: /etc/httpd/conf.d/ganglia.conf
+      owner: root
+      group: root
+      mode: 0644
+
+
+  - name: Restart service httpd, in all cases
+    service:
+      name: httpd
+      state: restarted
+
+
+  - name: Recursively change ownership of a ganglia/rrds
+    file:
+      path: /var/lib/ganglia/rrds
+      state: directory
+      recurse: yes
+      owner: nobody
+      group: nobody
+
+
+  - name: Restart service gmetad, in all cases
+    service:
+      name: gmetad
+      state: restarted
+
+
+  - name: 
+    replace:
+      path: /etc/ssh/sshd_config
+      regexp: 'PasswordAuthentication no'
+      replace: PasswordAuthentication yes
+
+  - name: Restart service sshd, in all cases
+    service:
+      name: sshd
+      state: restarted
