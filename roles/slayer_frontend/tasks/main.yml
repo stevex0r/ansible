@@ -61,3 +61,22 @@
     service:
       name: sshd
       state: restarted
+
+  - name: Copy pdsh.sh into place
+    copy:
+      src: pdsh.sh
+      dest: /etc/profile.d/pdsh.sh
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Create /etc/pdsh if it does not exist
+    file:
+      path: /etc/pdsh
+      state: directory
+      mode: '0755'
+
+  - name: Grep compute nodes from /etc/hosts into pdsh config file 
+    raw: cat /etc/hosts | grep compute | awk '{ print $2 }' > /etc/pdsh/machines
+    args:
+      executable: /bin/bash
