@@ -1,0 +1,30 @@
+---
+- name: Install Anaconda
+  hosts: firefly
+  remote_user: centos
+  become: yes
+  tags:
+    - anaconda
+    - jupyterhub
+
+
+  vars_prompt:
+    - name: "ssl_country"
+      prompt: "SSL Country Name (2 letter)"
+      private: no
+    - name: "ssl_state"
+      prompt: "SSL State or Province Name (full name)"
+      private: no
+    - name: "ssl_city"
+      prompt: "SSL Locality Name (eg, City)"
+      private: no
+    - name: "ssl_org"
+      prompt: "SSL Organization Name (eg, Company)"
+      private: no
+    - name: "ssl_email"
+      prompt: "SSL Email Address"
+      private: no
+
+  roles:
+    - anaconda
+    - jupyterhub

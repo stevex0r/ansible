@@ -1,0 +1,10 @@
+---
+- name: Install Anaconda
+  hosts: firefly
+  remote_user: centos
+  become: yes
+  tags:
+    - anaconda
+
+  roles:
+    - anaconda

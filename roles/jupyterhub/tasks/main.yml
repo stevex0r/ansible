@@ -1,0 +1,58 @@
+---
+# tasks file for jupyterhub
+
+  - name: Check to see if jupyterhub exists
+    stat: path=/opt/anaconda3/bin/jupyterhub
+    register: jupyterhub_exists
+
+  - name: Install Jupyterhub 
+    shell: . /etc/profile.d/anaconda3.sh && conda  install  -y -c conda-forge jupyterhub
+    when: jupyterhub_exists.stat.exists == False
+
+  - name: Install notebook
+    shell: . /etc/profile.d/anaconda3.sh && conda install -y notebook
+    when: jupyterhub_exists.stat.exists == False
+
+  - name: Install batchspawner
+    shell: . /etc/profile.d/anaconda3.sh && pip install batchspawner
+    when: jupyterhub_exists.stat.exists == False
+
+  - name: create jupyterhub folder in etc
+    file: path=/root/sbin/jupyterhub state=directory mode=0755 owner=root group=root
+
+  - name: Check to see if config file exists
+    stat: path=/root/sbin/jupyterhub/jupyterhub_config.py
+    register: config_exists
+
+  - name: configure jupyterhub
+    command: /opt/anaconda3/bin/jupyterhub --generate-config chdir=/root/sbin/jupyterhub/ creates=/root/sbin/jupyterhub/jupyterhub_config.py
+    when: config_exists.stat.exists == False
+
+  - name: set IP address
+    lineinfile: dest=/root/sbin/jupyterhub/jupyterhub_config.py line="c.JupyterHub.hub_ip = '{{ansible_eth0.ipv4.address}}'"
+
+  - name: Check to see if certificate exists
+    stat: path=/etc/ssl/jupyterhub.key
+    register: cert_exists
+
+  - name: create self-signed SSL cert
+    command: openssl req -new -nodes -x509 -subj "/C={{ssl_country}}/ST={{ssl_state}}/L={{ssl_city}}/O={{ssl_org}}/CN=HomeLab" -days 3650 -keyout /etc/ssl/jupyterhub.key -out /etc/ssl/jupyterhub.crt -extensions v3_ca creates=/etc/ssl/jupyterhub.crt
+    when: 
+      - cert_exists.stat.exists == False
+
+  - name: set jupyterhub certificate
+    lineinfile: dest=/root/sbin/jupyterhub/jupyterhub_config.py line="c.JupyterHub.ssl_cert = '/etc/ssl/jupyterhub.crt'"
+
+  - name: set jupyterhub certificate
+    lineinfile: dest=/root/sbin/jupyterhub/jupyterhub_config.py line="c.JupyterHub.ssl_key = '/etc/ssl/jupyterhub.key'"
+
+  - name: Configure SlurmSpawner
+    blockinfile:
+      path: /root/sbin/jupyterhub/jupyterhub_config.py
+      block: |
+        c = get_config()
+        c.JupyterHub.spawner_class = 'batchspawner.SlurmSpawner'
+        import batchspawner
+        c.BatchSpawnerBase.req_runtime = '12:00:00'
+        c.BatchSpawnerBase.req_partition = 'main'
+        c.Spawner.cmd = ['/opt/anaconda3/bin/jupyterhub-singleuser']
